@@ -2,8 +2,8 @@
 // Created by geoff_000 on 24/11/2015.
 //
 
-#ifndef A2_COLLISION_DETECTION_GAME_H
-#define A2_COLLISION_DETECTION_GAME_H
+#ifndef COLLISION_DETECTION_GAME_H
+#define COLLISION_DETECTION_GAME_H
 
 #include <vector>
 #include <stdlib.h>
@@ -48,4 +48,4 @@ private:
 };
 
 
-#endif //A2_COLLISION_DETECTION_GAME_H
+#endif //COLLISION_DETECTION_GAME_H

@@ -2,8 +2,8 @@
 // Created by geoff whitehead on 17/11/15.
 //
 
-#ifndef A2_COLLISION_DETECTION_SHAPE_H
-#define A2_COLLISION_DETECTION_SHAPE_H
+#ifndef COLLISION_DETECTION_SHAPE_H
+#define COLLISION_DETECTION_SHAPE_H
 
 #include "Visitor.h"
 #include "Vector3D.h"
@@ -32,4 +32,4 @@ protected:
 
 
 
-#endif //A2_COLLISION_DETECTION_SHAPE_H
+#endif //COLLISION_DETECTION_SHAPE_H

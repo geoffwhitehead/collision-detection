@@ -2,8 +2,8 @@
 // Created by geoff whitehead on 17/11/15.
 //
 
-#ifndef A2_COLLISION_DETECTION_CIRCLE_H
-#define A2_COLLISION_DETECTION_CIRCLE_H
+#ifndef COLLISION_DETECTION_CIRCLE_H
+#define COLLISION_DETECTION_CIRCLE_H
 
 #include "Square.h"
 
@@ -34,4 +34,4 @@ public:
     }
 };
 
-#endif //A2_COLLISION_DETECTION_CIRCLE_H
+#endif //COLLISION_DETECTION_CIRCLE_H

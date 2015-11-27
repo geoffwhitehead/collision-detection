@@ -2,8 +2,8 @@
 // Created by geoff whitehead on 17/11/2015.
 //
 
-#ifndef A2_COLLISION_DETECTION_VISITOR_H
-#define A2_COLLISION_DETECTION_VISITOR_H
+#ifndef COLLISION_DETECTION_VISITOR_H
+#define COLLISION_DETECTION_VISITOR_H
 
 #include <iostream>
 
@@ -30,4 +30,4 @@ public:
 };
 
 
-#endif //A2_COLLISION_DETECTION_VISITOR_H
+#endif //COLLISION_DETECTION_VISITOR_H

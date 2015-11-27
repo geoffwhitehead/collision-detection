@@ -2,8 +2,8 @@
 // Created by geoff whitehead on 17/11/15.
 //
 
-#ifndef A2_COLLISION_DETECTION_SQUARE_H
-#define A2_COLLISION_DETECTION_SQUARE_H
+#ifndef COLLISION_DETECTION_SQUARE_H
+#define COLLISION_DETECTION_SQUARE_H
 
 
 #include "Shape.h"
@@ -30,4 +30,4 @@ public:
 
 
 
-#endif //A2_COLLISION_DETECTION_SQUARE_H
+#endif //COLLISION_DETECTION_SQUARE_H
