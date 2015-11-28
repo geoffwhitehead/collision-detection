@@ -40,6 +40,9 @@ public:
     virtual void visit(Square &s);
 
     int findHeading(Vector3D v);
+	bool overlapTest(Square &s1, Circle &c2);
+	bool pointInCircle(float x, float y, Circle &c);
+	bool circleInSquare(Square s1, Circle c2);
 
     void collisionXPlus(Shape& s, float offset);
     void collisionXMinus(Shape& s, float offset);

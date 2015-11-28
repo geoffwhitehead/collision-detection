@@ -26,8 +26,4 @@ public:
     }
 };
 
-
-
-
-
 #endif //COLLISION_DETECTION_SQUARE_H

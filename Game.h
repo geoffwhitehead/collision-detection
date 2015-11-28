@@ -44,7 +44,8 @@ private:
     void createShapes();                                // function to populate vector array with shapes
     void checkShapeCollision(CollisionVisitor &v, Shape &s1, Shape &s2);       // used to call collision function on 2 shapes
     void checkBoundsCollision(CollisionVisitor &v, Shape &s1);
-    void move(Shape&);                                  // moves the shape along its direction vector by 1 unit
+	void removeCollisions();
+	void printShapes();
 };
 
 

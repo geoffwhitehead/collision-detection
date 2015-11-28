@@ -17,36 +17,14 @@
 //***   MAIN                                   ***//
 //************************************************//
 
-using namespace std;
-
-
-
 const int AMT_SHAPES = 5;
 const float BOARD_X = 20.0f;
 const float BOARD_Y = 20.0f;
-const bool SQUARE_FLAG = false;
+const bool SQUARE_FLAG = true;
 const bool CIRCLE_FLAG = true;
 const float V_MIN = -2.0f;
 const float V_MAX = 2.0f;
 
 int main() {
-
     Game game(AMT_SHAPES,BOARD_X,BOARD_Y,SQUARE_FLAG,CIRCLE_FLAG,V_MIN,V_MAX);
-    /*
-          CollisionVisitor v(BOARD_X, BOARD_Y);
-
-          Vector3D v1;
-          Vector3D v2;
-          Circle c(v1, v1, 4);
-          Square s(v2, v2, 2, 2);
-       visit(v, c, s);
-       visit(v, c);
-   void visit(Visitor &v, Shape& s1, Shape& s2){
-    s2.accept(v,s1);
-}
-void visit(Visitor &v, Shape& s1){
-    s1.accept(v);
-}
-     */
-
 }

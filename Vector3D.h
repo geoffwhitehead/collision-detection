@@ -3,8 +3,8 @@
 // A Vector3 class
 //
 
-#ifndef A1_VECTORCLASS_VECTOR3DSTACK_H
-#define A1_VECTORCLASS_VECTOR3DSTACK_H
+#ifndef COLLISION_DETECTION_VECTOR3D_H
+#define COLLISION_DETECTION_VECTOR3D_H
 
 #include <ostream>
 #include <stdlib.h>
@@ -101,4 +101,4 @@ private:
 };
 
 
-#endif //A1_VECTORCLASS_VECTOR3DSTACK_H
+#endif //COLLISION_DETECTION_VECTOR3D_H

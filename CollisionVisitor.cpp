@@ -3,33 +3,95 @@
 //
 #include "CollisionVisitor.h"
 
+// USES THE CARTESIAN COORDINATE SYSTEM
+
+// use bounding box algorithm to check whether edges intersect 
 void CollisionVisitor::visit(Square &s1, Square &s2) {
-   // std::cout << "square square derived" << std::endl;
+	if (!
+		(s2.pos_v.x > (s1.pos_v.x + s1.size)			// s2.left > s1.right
+		|| (s2.pos_v.x + s2.size) < s1.pos_v.x		// s2.right < s1.left
+		|| (s2.pos_v.y + s2.size) < s1.pos_v.y		// s2.top < s1.bottom
+		|| s2.pos_v.y > (s1.pos_v.y + s1.size)))	// s2.bottom > s1.top
+	{
+		s2.collision_flag = true;
+		std::cout << "--------------------COLLISION: SQUARE-SQUARE" << std::endl;
+	}
+
 };
 
 void CollisionVisitor::visit(Square &s1, Circle &c2) {
-   // std::cout << "square circle derived" << std::endl;
+	if (overlapTest(s1, c2)) {								// if shapes are overlapping continue to further check
+		
+		if (												// now test to see whether points of square lie inside circle
+			pointInCircle(s1.pos_v.x, s1.pos_v.y, c2)								// check square bottom-left
+			|| pointInCircle((s1.pos_v.x + s1.size), s1.pos_v.y, c2)				// check square bottom-right
+			|| pointInCircle(s1.pos_v.x, (s1.pos_v.y + s1.size), c2)				// check square top-left
+			|| pointInCircle((s1.pos_v.x + s1.size), (s1.pos_v.y + s1.size), c2)	// check square top-right
+			) {
+			c2.collision_flag = true;						// a point from the square lies inside the circle
+			std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
+		}
+		else if (circleInSquare(s1, c2)) c2.collision_flag = true;							// then check to see if centre of circle lies completely inside the square
+		std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
+	}
+	// leave function
 };
 
 void CollisionVisitor::visit(Circle &c1, Square &s2) {
+	if (overlapTest(s2, c1)) {								// if shapes are overlapping continue to further check
 
+		if (												// now test to see whether points of square lie inside circle
+			pointInCircle(s2.pos_v.x, s2.pos_v.y, c1)								// check square bottom-left
+			|| pointInCircle((s2.pos_v.x + s2.size), s2.pos_v.y, c1)				// check square bottom-right
+			|| pointInCircle(s2.pos_v.x, (s2.pos_v.y + s2.size), c1)				// check square top-left
+			|| pointInCircle((s2.pos_v.x + s2.size), (s2.pos_v.y + s2.size), c1)	// check square top-right
+			) {
+			s2.collision_flag = true;						// a point from the square lies inside the circle
+			std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
+		}
+		else if (circleInSquare(s2, c1)) s2.collision_flag = true;							// then check to see if centre of circle lies completely inside the square
+		std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
+	}
+	// leave function
 };
+
+bool CollisionVisitor::circleInSquare(Square s1, Circle c2) {
+	// algorithm to work out that the circle origin is inside square
+	return true; // for now
+}
+
+bool CollisionVisitor::pointInCircle(float x, float y, Circle &c) {
+	float sum_x = powf(x - c.pos_v.x, 2.0f);
+	float sum_y = powf(y - c.pos_v.y, 2.0f);
+	float sum_r = powf(c.radius, 2.0f);
+
+	return ( ( sum_x + sum_y ) < sum_r) ? true : false; 
+}
+
+// quicker test to check whether shapes are "close" to each other
+bool CollisionVisitor::overlapTest(Square &s1, Circle &c2) {
+	if (!
+		((c2.pos_v.x - c2.radius) > (s1.pos_v.x + s1.size)			// c2.left > s1.right
+			|| (c2.pos_v.x + c2.radius) < s1.pos_v.x				// c2.right < s1.left
+			|| (c2.pos_v.y + c2.radius) < s1.pos_v.y				// c2.top < s1.bottom
+			|| (c2.pos_v.y - c2.radius) > (s1.pos_v.y + s1.size)))	// c2.bottom > s1.top
+	{
+		std::cout << "--------------------OVERLAP: !!!!!" << std::endl;
+		return true;
+	}
+}
+
 /*
  * this function will check for a collision between 2 circles; if true, set the collision flag to true
  */
 void CollisionVisitor::visit(Circle &c1, Circle &c2) {
 
-   float sum_c1 = powf(c2.pos_v.x - c1.pos_v.x, 2.0f);
-    float sum_c2 = powf(c1.pos_v.y - c2.pos_v.y, 2.0f);
-    float sum_rad = powf(c1.radius + c2.radius, 2.0f);
-	std::cout << "sum is: " << sum_c1 + sum_c2 << std::endl;
-	if ((sum_c1 + sum_c2) <= sum_rad) {
+	float sum_c1 = powf(c2.pos_v.x - c1.pos_v.x, 2.0f);
+	float sum_c2 = powf(c1.pos_v.y - c2.pos_v.y, 2.0f);
+	float sum_rad = powf(c1.radius + c2.radius, 2.0f);
 
-		c2.collision_flag = true;
-		std::cout << "circle circle COLLISION" << std::endl;
-		std::cout << "collision flag" << c2.collision_flag << std::endl;
-		
-	}
+	if ((sum_c1 + sum_c2) <= sum_rad) c2.collision_flag = true,
+		std::cout << "--------------------COLLISION: CIRCLE-CIRCLE" << std::endl;
 };
 /*
  * this function will check over the four cases and looks for the position vector falling outside
@@ -39,42 +101,45 @@ void CollisionVisitor::visit(Circle &c1, Circle &c2) {
 
 void CollisionVisitor::visit(Circle &c) {
 
-    int heading = findHeading(c.dir_v);                                     // find the shape the vector is heading in
-    float offset = c.radius;
-    if (heading == UP_R) { // 1
+	int heading = findHeading(c.dir_v);                                     // find the shape the vector is heading in
+	float offset = c.radius;
+	if (heading == UP_R) { // 1
 
-        if (c.pos_v.x > (bounds_x - c.radius)) {
-            collisionXPlus(c, offset);
-        }
-        if (c.pos_v.y > (bounds_y - c.radius)) {
-            collisionYPlus(c, offset);
-        }
+		if (c.pos_v.x > (bounds_x - c.radius)) {
+			collisionXPlus(c, offset);
+		}
+		if (c.pos_v.y > (bounds_y - c.radius)) {
+			collisionYPlus(c, offset);
+		}
 
-    } else if (heading == DOWN_R) { // 2
-        if (c.pos_v.x >(bounds_x - c.radius)) {
-            collisionXPlus(c, offset);
-        }
-        if (c.pos_v.y < (0.0f + c.radius)) {
-            collisionYMinus(c, offset);
-        }
-    } else if (heading == UP_L) { // 3
+	}
+	else if (heading == DOWN_R) { // 2
+		if (c.pos_v.x > (bounds_x - c.radius)) {
+			collisionXPlus(c, offset);
+		}
+		if (c.pos_v.y < (0.0f + c.radius)) {
+			collisionYMinus(c, offset);
+		}
+	}
+	else if (heading == UP_L) { // 3
 
-        if (c.pos_v.x < (0.0f + c.radius)) {
-            collisionXMinus(c, offset);
-        }
-        if (c.pos_v.y > (bounds_y - c.radius)) {
-            collisionYPlus(c, offset);
-        }
+		if (c.pos_v.x < (0.0f + c.radius)) {
+			collisionXMinus(c, offset);
+		}
+		if (c.pos_v.y > (bounds_y - c.radius)) {
+			collisionYPlus(c, offset);
+		}
 
-    } else if (heading == DOWN_L) { // 4
+	}
+	else if (heading == DOWN_L) { // 4
 
-        if (c.pos_v.x < (0.0 + c.radius)) {
-            collisionXMinus(c, offset);
-        }
-        if (c.pos_v.y < (0.0f + c.radius)) {
-            collisionYMinus(c, offset);
-        }
-    }
+		if (c.pos_v.x < (0.0 + c.radius)) {
+			collisionXMinus(c, offset);
+		}
+		if (c.pos_v.y < (0.0f + c.radius)) {
+			collisionYMinus(c, offset);
+		}
+	}
 };
 
 /*
@@ -86,65 +151,68 @@ void CollisionVisitor::visit(Circle &c) {
 
 void CollisionVisitor::visit(Square &s) {
 
-    // defined the offsets to make the code a little more readable.
-    float pos_offset = s.size;
-    float neg_offset = 0.01f;
+	// defined the offsets to make the code a little more readable.
+	float pos_offset = s.size;
+	float neg_offset = 0.01f;
 
-    int heading = findHeading(s.dir_v);                   // find the shape the vector is heading in
+	int heading = findHeading(s.dir_v);                   // find the shape the vector is heading in
 
-    if (heading == UP_R) {                              // 1
+	if (heading == UP_R) {                              // 1
 
-        if (s.pos_v.x >(bounds_x - s.size)) {
-            collisionXPlus(s, pos_offset);
-        }
-        if (s.pos_v.y >(bounds_y - s.size)) {
-            collisionYPlus(s, pos_offset);
-        }
-    } else if (heading == DOWN_R) {                     // 2
-        if (s.pos_v.x >(bounds_x - s.size)) {
-            collisionXPlus(s, pos_offset);
-        }
-        if (s.pos_v.y < (0.0f)) {
-            collisionYMinus(s, neg_offset);
-        }
-    } else if (heading == UP_L) {                       // 3
-        if (s.pos_v.x < (0.0f)) {
-            collisionXMinus(s, neg_offset);
-        }
-        if (s.pos_v.y > (bounds_y - s.size)) {
-            collisionYPlus(s, pos_offset);
-        }
-    } else if (heading == DOWN_L) {                     // 4
+		if (s.pos_v.x > (bounds_x - s.size)) {
+			collisionXPlus(s, pos_offset);
+		}
+		if (s.pos_v.y > (bounds_y - s.size)) {
+			collisionYPlus(s, pos_offset);
+		}
+	}
+	else if (heading == DOWN_R) {                     // 2
+		if (s.pos_v.x > (bounds_x - s.size)) {
+			collisionXPlus(s, pos_offset);
+		}
+		if (s.pos_v.y < (0.0f)) {
+			collisionYMinus(s, neg_offset);
+		}
+	}
+	else if (heading == UP_L) {                       // 3
+		if (s.pos_v.x < (0.0f)) {
+			collisionXMinus(s, neg_offset);
+		}
+		if (s.pos_v.y > (bounds_y - s.size)) {
+			collisionYPlus(s, pos_offset);
+		}
+	}
+	else if (heading == DOWN_L) {                     // 4
 
-        if (s.pos_v.x < (0.0)) {
-            collisionXMinus(s, neg_offset);
-        }
-        if (s.pos_v.y < (0.0f)) {
-            collisionYMinus(s, neg_offset);
-        }
-    }
+		if (s.pos_v.x < (0.0)) {
+			collisionXMinus(s, neg_offset);
+		}
+		if (s.pos_v.y < (0.0f)) {
+			collisionYMinus(s, neg_offset);
+		}
+	}
 };
 
 
-void CollisionVisitor::collisionXPlus(Shape& s, float offset){
-    std::cout << "COLLIDED WITH +X" << std::endl;
-    s.pos_v = Vector3D(bounds_x - offset, s.pos_v.y, s.pos_v.z);
-    s.dir_v = s.dir_v.flipX();
+void CollisionVisitor::collisionXPlus(Shape& s, float offset) {
+	std::cout << "COLLIDED WITH +X" << std::endl;
+	s.pos_v = Vector3D(bounds_x - offset, s.pos_v.y, s.pos_v.z);
+	s.dir_v = s.dir_v.flipX();
 }
-void CollisionVisitor::collisionXMinus(Shape& s, float offset){
-    std::cout << "COLLIDED WITH -X"<< std::endl;
-    s.pos_v = Vector3D(0.0f + offset, s.pos_v.y, s.pos_v.z);
-    s.dir_v = s.dir_v.flipX();
+void CollisionVisitor::collisionXMinus(Shape& s, float offset) {
+	std::cout << "COLLIDED WITH -X" << std::endl;
+	s.pos_v = Vector3D(0.0f + offset, s.pos_v.y, s.pos_v.z);
+	s.dir_v = s.dir_v.flipX();
 }
-void CollisionVisitor::collisionYPlus(Shape& s, float offset){
-    std::cout << "COLLIDED WITH +Y"<< std::endl;
-    s.pos_v = Vector3D(s.pos_v.x, bounds_y - offset, s.pos_v.z);
-    s.dir_v = s.dir_v.flipY();
+void CollisionVisitor::collisionYPlus(Shape& s, float offset) {
+	std::cout << "COLLIDED WITH +Y" << std::endl;
+	s.pos_v = Vector3D(s.pos_v.x, bounds_y - offset, s.pos_v.z);
+	s.dir_v = s.dir_v.flipY();
 }
-void CollisionVisitor::collisionYMinus(Shape& s, float offset){
-    std::cout << "COLLIDED WITH -Y"<< std::endl;
-    s.pos_v = Vector3D(s.pos_v.x, 0.0f + offset, s.pos_v.z);
-    s.dir_v = s.dir_v.flipY();
+void CollisionVisitor::collisionYMinus(Shape& s, float offset) {
+	std::cout << "COLLIDED WITH -Y" << std::endl;
+	s.pos_v = Vector3D(s.pos_v.x, 0.0f + offset, s.pos_v.z);
+	s.dir_v = s.dir_v.flipY();
 }
 
 /*
@@ -153,15 +221,18 @@ void CollisionVisitor::collisionYMinus(Shape& s, float offset){
  */
 
 int CollisionVisitor::findHeading(Vector3D v) {
-    if (v.x > 0) {
-        if (v.y > 0) {                           // if X+ Y+
-            return UP_R;
-        } else {
-            return DOWN_R;                        // if X+ Y-
-        }
-    } else if (v.y > 0) {                        // if X- Y+
-        return UP_L;
-    } else {                                    // if X- Y-
-        return DOWN_L;
-    }
+	if (v.x > 0) {
+		if (v.y > 0) {                           // if X+ Y+
+			return UP_R;
+		}
+		else {
+			return DOWN_R;                        // if X+ Y-
+		}
+	}
+	else if (v.y > 0) {                        // if X- Y+
+		return UP_L;
+	}
+	else {                                    // if X- Y-
+		return DOWN_L;
+	}
 }
