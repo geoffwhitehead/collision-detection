@@ -8,11 +8,8 @@
 // use bounding box algorithm to check whether edges intersect 
 void CollisionVisitor::visit(Square &s1, Square &s2) {
 	if (!
-		(s2.pos_v.x > (s1.pos_v.x + s1.size)			// s2.left > s1.right
-			|| (s2.pos_v.x + s2.size) < s1.pos_v.x			// s2.right < s1.left
-			|| (s2.pos_v.y + s2.size) < s1.pos_v.y			// s2.top < s1.bottom
-			|| s2.pos_v.y > (s1.pos_v.y + s1.size)))		// s2.bottom > s1.top
-	{
+		
+ v	{
 		s2.collision_flag = true;		// set the collision flag for the rhs shape 
 		collision_flag = true;			// set the flag for the collision visitor so that the Game knows to use the delete method this round
 		std::cout << "--------------------COLLISION: SQUARE-SQUARE" << std::endl;
@@ -212,22 +209,18 @@ void CollisionVisitor::visit(Square &s) {
 /* CARTESIAN COORDS SYSTEM: flip the corresponding axis depending on which side of the boundary shape collided with*/
 
 void CollisionVisitor::collisionXPlus(Shape& s, float offset) { // COLLIDED WITH +X
-	std::cout << "COLLIDED WITH +X" << std::endl;
 	s.pos_v = Vector3D(bounds_x - offset, s.pos_v.y, s.pos_v.z);
 	s.dir_v = s.dir_v.flipX();
 }
 void CollisionVisitor::collisionXMinus(Shape& s, float offset) { // COLLIDED WITH -X
-	std::cout << "COLLIDED WITH -X" << std::endl;
 	s.pos_v = Vector3D(0.0f + offset, s.pos_v.y, s.pos_v.z);
 	s.dir_v = s.dir_v.flipX();
 }
 void CollisionVisitor::collisionYPlus(Shape& s, float offset) { // COLLIDED WITH +Y
-	std::cout << "COLLIDED WITH +Y" << std::endl;
 	s.pos_v = Vector3D(s.pos_v.x, bounds_y - offset, s.pos_v.z);
 	s.dir_v = s.dir_v.flipY();
 }
 void CollisionVisitor::collisionYMinus(Shape& s, float offset) { // COLLIDED WITH -Y
-	std::cout << "COLLIDED WITH -Y" << std::endl;
 	s.pos_v = Vector3D(s.pos_v.x, 0.0f + offset, s.pos_v.z);
 	s.dir_v = s.dir_v.flipY();
 }

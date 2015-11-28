@@ -45,7 +45,8 @@ private:
     void checkShapeCollision(CollisionVisitor &v, Shape &s1, Shape &s2);       // used to call collision function on 2 shapes
     void checkBoundsCollision(CollisionVisitor &v, Shape &s1);
 	void removeCollisions();
-	void printShapes();
+	void printVerbose();
+	void printConcise();
 };
 
 

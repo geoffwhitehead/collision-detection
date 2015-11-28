@@ -37,14 +37,11 @@ void Game::start() {
 	int counter = 0;
 	while (shapes.size() > 1) {						// 1. MAIN GAME LOOP : keep drawing until only 1 or no shapes remain.
 		counter++;
-		std::cout << "ROUND: " << counter << std::endl;
-		printShapes();
 		for (auto &shape : shapes) {												//First move all the shapes 1 frame. During this process if the shape hits a boundary its directions vector is adjusted.
 			Vector3D unit_v = shape->dir_v.unitVector();							// get the unit vector for the direction
 			shape->pos_v = (shape->pos_v + unit_v);									// increment the position of the shape by 1 unit
 			checkBoundsCollision(collision_vis, *shape);							// check that the shape hasn't fallen outside of the game bounds; reset to bounds and adjust direction if yes
 		}
-		printShapes();
 		for (auto &shape_l : shapes) {				// 2. after moving all shapes 1 frame... check for collisions
 			for (auto &shape_r : shapes) {
 				if (shape_l != shape_r && !(shape_r->collision_flag)) {				// dont compare against itself AND dont compare with a shape that has already been collided with this round
@@ -53,6 +50,9 @@ void Game::start() {
 			}
 		}
 		if (collision_vis.collision_flag) {											// if a collision has occured then proceed
+			std::cout << "FRAME: " << counter << std::endl;
+			printVerbose();
+			//printConcise();
 			removeCollisions();							// 3. remove all the shapes with their delete flags set
 			collision_vis.collision_flag = false;									// reset the collision flag after performing deletes
 		}
@@ -73,11 +73,22 @@ void Game::removeCollisions() {
 }
 
 // debug: print all the shapes
-void Game::printShapes() {							
+void Game::printVerbose() {
 	int i = 0;
 	for (auto &shape : shapes) {
-		std::cout << i << " -: " << *shape << std::endl;
+		std::cout << "-- Shape: " << i << " : " << *shape << "collision_flag: **" << shape->collision_flag << "**" << std::endl;
 		i++;
+	}
+	std::cout << std::endl << std::endl;
+}
+
+void Game::printConcise() {
+	int i = 0;
+	for (auto &shape : shapes) {
+		if (shape->collision_flag) {
+			std::cout << "-- Shape: " << i << " : " << *shape << "collision_flag: **" << shape->collision_flag << "**" << std::endl;
+			i++;
+		}
 	}
 	std::cout << std::endl << std::endl << std::endl;
 }
