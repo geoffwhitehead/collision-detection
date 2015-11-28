@@ -42,7 +42,7 @@ public:
     int findHeading(Vector3D v);
 	bool overlapTest(Square &s1, Circle &c2);
 	bool pointInCircle(float x, float y, Circle &c);
-	bool circleInSquare(Square s1, Circle c2);
+	bool circleInSquare(float x, float y, Square &s);
 
     void collisionXPlus(Shape& s, float offset);
     void collisionXMinus(Shape& s, float offset);

@@ -17,9 +17,9 @@
 //***   MAIN                                   ***//
 //************************************************//
 
-const int AMT_SHAPES = 5;
-const float BOARD_X = 20.0f;
-const float BOARD_Y = 20.0f;
+const int AMT_SHAPES = 30;
+const float BOARD_X = 100.0f;
+const float BOARD_Y = 100.0f;
 const bool SQUARE_FLAG = true;
 const bool CIRCLE_FLAG = true;
 const float V_MIN = -2.0f;

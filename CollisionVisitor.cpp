@@ -9,9 +9,9 @@
 void CollisionVisitor::visit(Square &s1, Square &s2) {
 	if (!
 		(s2.pos_v.x > (s1.pos_v.x + s1.size)			// s2.left > s1.right
-		|| (s2.pos_v.x + s2.size) < s1.pos_v.x		// s2.right < s1.left
-		|| (s2.pos_v.y + s2.size) < s1.pos_v.y		// s2.top < s1.bottom
-		|| s2.pos_v.y > (s1.pos_v.y + s1.size)))	// s2.bottom > s1.top
+		|| (s2.pos_v.x + s2.size) < s1.pos_v.x			// s2.right < s1.left
+		|| (s2.pos_v.y + s2.size) < s1.pos_v.y			// s2.top < s1.bottom
+		|| s2.pos_v.y > (s1.pos_v.y + s1.size)))		// s2.bottom > s1.top
 	{
 		s2.collision_flag = true;
 		std::cout << "--------------------COLLISION: SQUARE-SQUARE" << std::endl;
@@ -31,8 +31,10 @@ void CollisionVisitor::visit(Square &s1, Circle &c2) {
 			c2.collision_flag = true;						// a point from the square lies inside the circle
 			std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
 		}
-		else if (circleInSquare(s1, c2)) c2.collision_flag = true;							// then check to see if centre of circle lies completely inside the square
-		std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
+		else if (circleInSquare(c2.pos_v.x, c2.pos_v.y, s1)) {					// then check to see if centre of circle lies completely inside the square
+			c2.collision_flag = true;							
+			std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
+		}
 	}
 	// leave function
 };
@@ -49,15 +51,26 @@ void CollisionVisitor::visit(Circle &c1, Square &s2) {
 			s2.collision_flag = true;						// a point from the square lies inside the circle
 			std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
 		}
-		else if (circleInSquare(s2, c1)) s2.collision_flag = true;							// then check to see if centre of circle lies completely inside the square
-		std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
+		else if (circleInSquare(c1.pos_v.x, c1.pos_v.y, s2)) {					// then check to see if centre of circle lies completely inside the square
+			s2.collision_flag = true;							
+			std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
+		}
 	}
 	// leave function
 };
 
-bool CollisionVisitor::circleInSquare(Square s1, Circle c2) {
-	// algorithm to work out that the circle origin is inside square
-	return true; // for now
+// algorithm to work out that the circle origin is inside square
+bool CollisionVisitor::circleInSquare(float x, float y, Square &s) {
+	
+	if (
+		(s.pos_v.x < x)
+		&& ((s.pos_v.x + s.size) > x)
+		&& ((s.pos_v.y) < y)
+		&& ((s.pos_v.y + s.size) > y)
+		) {
+		return true;
+	}
+	return false;
 }
 
 bool CollisionVisitor::pointInCircle(float x, float y, Circle &c) {
@@ -96,7 +109,7 @@ void CollisionVisitor::visit(Circle &c1, Circle &c2) {
 /*
  * this function will check over the four cases and looks for the position vector falling outside
  * of the bounds of the board. If the vector does - it will reset the vector to the closest bound and
- * flip the corresponding X or Y value of the direction vetor. This will give a perpendicular direction.
+ * flip the corresponding X or Y value of the direction vetor. ie. bounces off the edge
  */
 
 void CollisionVisitor::visit(Circle &c) {

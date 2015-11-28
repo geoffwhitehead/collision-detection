@@ -34,8 +34,10 @@ Game::~Game() {
 //************************************************//
 
 void Game::start() {
-
-	for (int i = 0; i < 10; i++) {					// 1. MAIN GAME LOOP : keep drawing until only 1 or no shapes remain.
+	int counter = 0;
+	while (shapes.size() > 1) {						// 1. MAIN GAME LOOP : keep drawing until only 1 or no shapes remain.
+		counter++;
+		std::cout << "ROUND: " << counter << std::endl;
 		printShapes();
 		for (auto &shape : shapes) {												//First move all the shapes 1 frame. During this process if the shape hits a boundary its directions vector is adjusted.
 			Vector3D unit_v = shape->dir_v.unitVector();							// get the unit vector for the direction
@@ -98,14 +100,14 @@ void Game::createShapes() {
 			s = new Square(createVector(POS), createVector(DIR), 2.0f);
 		}break;
 		case CIRCLES: {
-			s = new Circle(createVector(POS), createVector(DIR), 2.0f);
+			s = new Circle(createVector(POS), createVector(DIR), 1.0f);
 		} break;
 		case BOTH: {
 			if ((rand() % 2) == 0) {
 				s = new Square(createVector(POS), createVector(DIR), 2.0f);
 			}
 			else {
-				s = new Circle(createVector(POS), createVector(DIR), 2.0f);
+				s = new Circle(createVector(POS), createVector(DIR), 1.0f);
 			}
 		} break;
 		}
