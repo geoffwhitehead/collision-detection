@@ -16,9 +16,6 @@
 #define UP_L 3
 #define DOWN_L 4
 
-
-
-
 /*
  * Add new class methods here and new behaviors will be applied to the
  * object at runtime through polymorphism.
@@ -39,7 +36,7 @@ public:
     virtual void visit(Circle &c);
     virtual void visit(Square &s);
 
-    int findHeading(Vector3D v);
+    int findHeading(const Vector3D v);
 	bool overlapTest(Square &s1, Circle &c2);
 	bool pointInCircle(float x, float y, Circle &c);
 	bool circleInSquare(float x, float y, Square &s);
@@ -49,7 +46,7 @@ public:
     void collisionYPlus(Shape& s, float offset);
     void collisionYMinus(Shape& s, float offset);
 
-
+	bool collision_flag = false;
 private:
     const float bounds_x;
     const float bounds_y;

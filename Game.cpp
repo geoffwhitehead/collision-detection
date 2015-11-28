@@ -52,7 +52,10 @@ void Game::start() {
 				}
 			}
 		}
-		removeCollisions();							// 3. remove all the shapes with their delete flags set
+		if (collision_vis.collision_flag) {											// if a collision has occured then proceed
+			removeCollisions();							// 3. remove all the shapes with their delete flags set
+			collision_vis.collision_flag = false;									// reset the collision flag after performing deletes
+		}
 	}
 }
 
@@ -117,12 +120,8 @@ void Game::createShapes() {
 
 // returns a random vector for either a position or a directions
 Vector3D Game::createVector(int type) {
-	if (type == POS) {
-		return Vector3D(getRandFloat(0.1f, board_x), getRandFloat(0.1f, board_y), V_Z);
-	}
-	else if (type == DIR) {
-		return Vector3D(getRandFloat(v_min, v_max), getRandFloat(v_min, v_max), V_Z);
-	}
+	if (type == POS) return Vector3D(getRandFloat(0.1f, board_x), getRandFloat(0.1f, board_y), V_Z);
+	else if (type == DIR)  return Vector3D(getRandFloat(v_min, v_max), getRandFloat(v_min, v_max), V_Z);
 }
 
 // uses the collision visitor class to determine shape types and check shape collisions
