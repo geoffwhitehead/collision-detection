@@ -61,7 +61,6 @@ Note: be careful about where you include new classes to avoid circular reference
 	Important:
 	* If a collision occurs, you need to set the collision_flag on shape2 (&s2) to true and set the collision_flag of the CollisionVisitor to true (copy other shapes essentially). 
 	The CollisionVisitor will set shape1 (&s1) collision_flag at the end of the frame after all collisions for that shape have been resolved. All the colliding shapes are then deleted in one pass at the end of the frame using function:
-
 	```
 	Game::removeCollisions();
 	```
@@ -70,18 +69,16 @@ Note: be careful about where you include new classes to avoid circular reference
 
 	```
 	Game::createShapes()	// add another case for your shape type here so that it is generated at game start. 
-
 	```
 	eg.
 	```
 	case TRIANGLES: {
 				t = new Triangle(createVector(POS), createVector(DIR), 2.0f); // POS and DIR are just used to tell createVector() to return either a Vector of type position or direction (they are randomised slightly differently)
-			}break;
+			} break;
 	```
 	Also edit the game constuctor to include your new Shape
 	```
 	Game::Game()			// the constructor currently uses a variable to determine whether you are using CIRCLES, SQUARES, or BOTH... your new shape will need to be factored into this.
-
 	```
 
 ## Screenshots
