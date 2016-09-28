@@ -59,7 +59,7 @@ void Game::start() {
 			}
 		}
 		if (collision_vis.collision_flag) {											// if a collision has occured then proceed
-			std::cout << "FRAME: " << counter << std::endl;
+			std::cout << "\nFRAME: " << counter << std::endl;
 			printVerbose();
 			//printConcise();
 			removeCollisions();							// 3. remove all the shapes with their delete flags set

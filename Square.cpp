@@ -29,6 +29,6 @@ void Square::accept(Visitor & v){
 }
 
 void Square::write(std::ostream& os) const{
-    os << "SQUARE: " <<"[Size: " << size <<"] [POS_Vec:" << this->pos_v <<"] [DIR_Vec: " << this->dir_v <<"]" <<"]";
+    os << "SQUARE: " <<"[Size: " << size <<"] [POS_Vec:" << this->pos_v <<"] [DIR_Vec: " << this->dir_v <<"] " ;
 
 }

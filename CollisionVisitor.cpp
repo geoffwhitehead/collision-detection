@@ -14,7 +14,7 @@ void CollisionVisitor::visit(Square &s1, Square &s2) {
 	{
 		s2.collision_flag = true;		// set the collision flag for the rhs shape 
 		collision_flag = true;			// set the flag for the collision visitor so that the Game knows to use the delete method this round
-		std::cout << "--------------------COLLISION: SQUARE-SQUARE" << std::endl;
+		std::cout << "\t Collision: Sqyare - Square" << std::endl;
 	}
 
 };
@@ -30,12 +30,12 @@ void CollisionVisitor::visit(Square &s1, Circle &c2) {
 			) {
 			c2.collision_flag = true;						// a point from the square lies inside the circle
 			collision_flag = true;
-			std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
+			std::cout << "\t Collision: Square - Circle" << std::endl;
 		}
 		else if (circleInSquare(c2.pos_v.x, c2.pos_v.y, s1)) {					// then check to see if centre of circle lies completely inside the square
 			c2.collision_flag = true;
 			collision_flag = true;
-			std::cout << "--------------------COLLISION: SQUARE-CIRCLE" << std::endl;
+			std::cout << "\t Collision: Circle - Circle" << std::endl;
 		}
 	}
 	// leave function
@@ -52,12 +52,12 @@ void CollisionVisitor::visit(Circle &c1, Square &s2) {
 			) {
 			s2.collision_flag = true;						// a point from the square lies inside the circle
 			collision_flag = true;
-			std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
+			std::cout << "\t Collision: Circle - Square" << std::endl;
 		}
 		else if (circleInSquare(c1.pos_v.x, c1.pos_v.y, s2)) {					// then check to see if centre of circle lies completely inside the square
 			s2.collision_flag = true;
 			collision_flag = true;
-			std::cout << "--------------------COLLISION: CIRCLE-SQUARE" << std::endl;
+			std::cout << "\t Collision: Circle - Circle" << std::endl;
 		}
 	}
 	// leave function
@@ -93,7 +93,7 @@ bool CollisionVisitor::overlapTest(Square &s1, Circle &c2) {
 			|| (c2.pos_v.y + c2.radius) < s1.pos_v.y				// c2.top < s1.bottom
 			|| (c2.pos_v.y - c2.radius) > (s1.pos_v.y + s1.size)))	// c2.bottom > s1.top
 	{
-		std::cout << "--------------------OVERLAP: !!!!!" << std::endl;
+		std::cout << "\t Debug: Overlap" << std::endl;
 		return true;
 	}
 }
@@ -110,7 +110,7 @@ void CollisionVisitor::visit(Circle &c1, Circle &c2) {
 	if ((sum_c1 + sum_c2) <= sum_rad) {
 		c2.collision_flag = true;
 		collision_flag = true;
-		std::cout << "--------------------COLLISION: CIRCLE-CIRCLE" << std::endl;
+		std::cout << "\t Collision: Circle - Circle" << std::endl;
 	}
 };
 /*

@@ -26,5 +26,5 @@ void Circle::accept(Visitor & v){
     v.visit(*this);
 }
 void Circle::write(std::ostream& os) const{
-    os << "CIRCLE: " <<"[Radius: " << radius <<"] [POS_Vec:" << this->pos_v <<"] [DIR_Vec: " << this->dir_v <<"]" <<"]";
+    os << "CIRCLE: " <<"[Radius: " << radius <<"] [POS_Vec:" << this->pos_v <<"] [DIR_Vec: " << this->dir_v <<"] ";
 }
