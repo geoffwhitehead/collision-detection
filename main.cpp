@@ -17,13 +17,13 @@
 //***   MAIN                                   ***//
 //************************************************//
 
-const int AMT_SHAPES = 30;
-const float BOARD_X = 100.0f;
-const float BOARD_Y = 100.0f;
-const bool SQUARE_FLAG = true;
-const bool CIRCLE_FLAG = true;
-const float V_MIN = -2.0f;
-const float V_MAX = 2.0f;
+const int AMT_SHAPES = 30;			// How many shapes to produce
+const float BOARD_X = 100.0f;		// Size of the board in the X
+const float BOARD_Y = 100.0f;		// Size of the board in the Y
+const bool SQUARE_FLAG = true;		// generate squares?
+const bool CIRCLE_FLAG = true;		// generate circles?
+const float V_MIN = -2.0f;			// greatest velocity in the - axis
+const float V_MAX = 2.0f;			// greatest velocity in the + axis
 
 int main() {
     Game game(AMT_SHAPES,BOARD_X,BOARD_Y,SQUARE_FLAG,CIRCLE_FLAG,V_MIN,V_MAX);

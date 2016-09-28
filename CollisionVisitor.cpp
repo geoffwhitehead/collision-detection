@@ -7,9 +7,11 @@
 
 // use bounding box algorithm to check whether edges intersect 
 void CollisionVisitor::visit(Square &s1, Square &s2) {
-	if (!
-		
- v	{
+	if (!(s2.pos_v.x > (s1.pos_v.x + s1.size)			// s2.left > s1.right
+		|| (s2.pos_v.x + s2.size) < s1.pos_v.x			// s2.right < s1.left
+		|| (s2.pos_v.y + s2.size) < s1.pos_v.y			// s2.top < s1.bottom
+		|| s2.pos_v.y > (s1.pos_v.y + s1.size)))		// s2.bottom > s1.top
+	{
 		s2.collision_flag = true;		// set the collision flag for the rhs shape 
 		collision_flag = true;			// set the flag for the collision visitor so that the Game knows to use the delete method this round
 		std::cout << "--------------------COLLISION: SQUARE-SQUARE" << std::endl;

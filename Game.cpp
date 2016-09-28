@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "CollisionVisitor.h"
 #include <algorithm>
+#include <Windows.h>
 
 Game::Game(int amt_s, float b_x, float b_y, bool s_flag, bool c_flag, float v_max, float v_min)
 	: amt_shapes(amt_s), board_x(b_x), board_y(b_y), v_max(v_max),
@@ -23,6 +24,14 @@ Game::Game(int amt_s, float b_x, float b_y, bool s_flag, bool c_flag, float v_ma
 	srand(static_cast <unsigned> (time(0)));	// seed random number generator - needs to be done once per run
 	createShapes();								// populate the vector with random shapes
 	start();									// start the main game loop
+	printVerbose();
+	std::cout << "COMPLETE -- press ESC to quit..." << std::endl;
+	while (1) {									// keep looping until user closes
+		if (GetAsyncKeyState(VK_ESCAPE)) {
+			break;
+		}
+	}
+
 }
 
 Game::~Game() {
